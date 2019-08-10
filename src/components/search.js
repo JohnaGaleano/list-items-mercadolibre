@@ -53,7 +53,7 @@ class Search extends React.Component {
   fetchProducts = async item => {
     info = [];
     fetch(
-      `https://api.mercadolibre.com/sites/MLU/search?q=${item}&access_token=APP_USR-6616257581210091-081000-b19e961dc11253afcf5910372627e572-307302477`
+      `https://api.mercadolibre.com/sites/MLU/search?q=${item}&access_token=APP_USR-6616257581210091-081013-c362baa04969accde68ccd7cfa511ff6-307302477`
     )
       .then(res => res.json())
       .then(data => {
