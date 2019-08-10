@@ -65,7 +65,7 @@ class Search extends React.Component {
                 info.push({
                   title: element.title,
                   thumbnail: element.thumbnail,
-                  price: element.price,
+                  price: Intl.NumberFormat().format(element.price),
                   seller: res.nickname
                 });
               })
