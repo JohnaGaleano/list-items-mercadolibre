@@ -87,7 +87,7 @@ class Search extends React.Component {
     return (
       <div>
         <div>
-          <div className="header" >John Alexander Galeano - API Mercado Libre</div>
+          <div className="header" >John Alexander Galeano Ospina- Mercadolibre</div>
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className="input">
