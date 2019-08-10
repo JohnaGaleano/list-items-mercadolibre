@@ -6,15 +6,22 @@ function ProductCard(props) {
 
   return (
     <div
-      className="CharacterCard"
+      className="ProductCard"
       style={{ backgroundImage: `url(${product.thumbnail})` }}
     >
-      <div className="CharacterCard__name-container text-truncate">
+      <div className="ProductCard__name-container text-truncate">
         {product.title}
+      </div>
+      <div className="ProductCard__price-container text-truncate">
+        <p>$</p>{product.price}
+      </div>
+      <div className="ProductCard__seller-container text-truncate">
+        {product.seller}
       </div>
     </div>
   );
 }
+let info = [];
 
 const inicial = {
   show: false,
@@ -30,7 +37,6 @@ const inicial = {
 
 class Search extends React.Component {
   state = {
-    show: false,
     item: "",
     loading: true,
     error: null,
@@ -47,38 +53,81 @@ class Search extends React.Component {
 
   handleClick = e => {
     this.setState(inicial);
-    this.setState({ show: !this.state.show });
-    console.log(this.state.data);
-    
-    this.fetchCharacters(this.state.item);
+    this.fetchProducts(this.state.item);
   };
-  fetchCharacters = async item => {
+  fetchProducts = async item => {
+    info = [];
     this.setState({ loading: false, error: null });
 
-    try {
-      const response = await fetch(
-        `https://api.mercadolibre.com/sites/MLU/search?q=${item}&access_token=APP_USR-6616257581210091-080916-88f6f9e74cdf6ee80085621ddf1a48dc-307302477`
-      );
-      const data = await response.json();
+    fetch(
+      `https://api.mercadolibre.com/sites/MLU/search?q=${item}&access_token=APP_USR-6616257581210091-081000-b19e961dc11253afcf5910372627e572-307302477`
+    )
+      .then(res => res.json())
+      .then(json => {
+        console.log(json.results);
+
+        Promise.all(
+          json.results.map(element =>
+            fetch(
+              `https://api.mercadolibre.com/users/${element.seller.id}`
+            ).then(res =>
+              res.json().then(res => {
+                info.push({
+                  title: element.title,
+                  thumbnail: element.thumbnail,
+                  price: element.price,
+                  seller: res.nickname
+                });
+                
+              })
+            )
+            
+          )
+          
+        ).then(res => {
+          this.setState({
+          loading: false,
+          data: {
+            results: [].concat(this.state.data.results, info)
+          },
+          nextPage: this.state.nextPage + 1
+        });
+        console.log(this.state.data.results);})
         
-      this.setState({
-        loading: false,
-        data: {
-          info: data,
-          results: [].concat(this.state.data.results, data.results)
-        },
-        nextPage: this.state.nextPage + 1
       });
-    } catch (error) {
-      this.setState({ loading: false, error: error });
-    }
+
+    //////////////////////////////
+    // try {
+    //   const response = await fetch(
+    //     `https://api.mercadolibre.com/sites/MLU/search?q=${item}&access_token=APP_USR-6616257581210091-080916-88f6f9e74cdf6ee80085621ddf1a48dc-307302477`
+    //   );
+    //   const data = await response.json();
+
+    //   this.setState({
+    //     loading: false,
+    //     data: {
+    //       info: data,
+    //       results: [].concat(this.state.data.results, data.results)
+    //     },
+    //     nextPage: this.state.nextPage + 1
+    //   });
+    // } catch (error) {
+    //   this.setState({ loading: false, error: error });
+    // }
+    ///////////////////////////
+    console.log("info2: " + info);
   };
+
   handleSubmit = e => {
     e.preventDefault();
   };
   render() {
     return (
       <div>
+        <div>
+          {" "}
+          <header>John Alexander Galeano - PAY Mercado Libre</header>{" "}
+        </div>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Producto a buscar</label>
@@ -96,13 +145,13 @@ class Search extends React.Component {
         </form>
 
         <div>
-            <ul className="row">
-              {this.state.data.results.map(product => (
-                <li className="col-6 col-md-3" key={product.id}>
-                  <ProductCard product={product} />
-                </li>
-              ))}
-            </ul>
+          <ul className="row">
+            {this.state.data.results.map(product => (
+              <li className="col-6 col-md-3" key={product.id}>
+                <ProductCard product={product} />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     );

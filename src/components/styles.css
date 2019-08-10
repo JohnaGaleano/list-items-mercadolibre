@@ -57,9 +57,9 @@ ul {
   }
 }
 
-.CharacterCard {
-  width: 60%;
-  height: 180px;
+.ProductCard {
+  width: 100%;
+  height: 280px;
   background: white;
   background-size: cover;
   background-repeat: no-repeat;
@@ -70,13 +70,42 @@ ul {
   position: relative;
 }
 
-.CharacterCard__name-container {
+.ProductCard__name-container {
   color: white;
   position: absolute;
+  bottom: 100;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 1rem 0.5rem;
+}
+
+.ProductCard__price-container {
+  color: white;
+  position: absolute;
+  bottom: 1;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 1rem 0.5rem;
+}
+
+.ProductCard__seller-container {
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 1rem 0.5rem;
+  text-align: left
+}
+
+.ProductCard__price-container {
+  color: white;
+  position: left;
   bottom: 0;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.7);
   padding: 1rem 0.5rem;
+  text-align: right
 }
 
 .text-truncate {
