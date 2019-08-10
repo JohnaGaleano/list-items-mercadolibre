@@ -87,12 +87,11 @@ class Search extends React.Component {
     return (
       <div>
         <div>
-          {" "}
-          <header>John Alexander Galeano - PAY Mercado Libre</header>{" "}
+          <div className="header" >John Alexander Galeano - API Mercado Libre</div>
         </div>
         <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label>Producto a buscar</label>
+          <div className="input">
+            <label>Item</label>
             <input
               onChange={this.handleChange}
               type="text"
@@ -101,7 +100,7 @@ class Search extends React.Component {
             />
           </div>
 
-          <button onClick={this.handleClick} className="btn btn-primary">
+          <button onClick={this.handleClick} className="button-search">
             Search on MercadoLibre
           </button>
         </form>
